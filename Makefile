@@ -11,14 +11,14 @@ test:
 
 build: fmt
 	go build -o terraform-provider-vercel
-	mkdir -p ~/.terraform.d/plugins/hashicorp.com/chronark/vercel/9000.1/linux_amd64
-	mv terraform-provider-vercel ~/.terraform.d/plugins/hashicorp.com/chronark/vercel/9000.1/linux_amd64
+	mkdir -p ~/.terraform.d/plugins/hashicorp.com/chronark/vercel/9000.1/darwin_amd64
+	mv terraform-provider-vercel ~/.terraform.d/plugins/hashicorp.com/chronark/vercel/9000.1/darwin_amd64
 
 
 fmt:
 
-	go generate -v ./...
-	golangci-lint run -v
+	# go generate -v ./...
+	# golangci-lint run -v
 	go fmt ./...
 	terraform fmt -recursive .
 
@@ -36,6 +36,6 @@ e2e: init
 release:
 	@go get github.com/caarlos0/svu
 	@echo "Releasing $$(svu next)..."
-	
+
 	@git tag $$(svu next) && git push --tags
 	@echo "Done"
