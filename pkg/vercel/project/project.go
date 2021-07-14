@@ -3,6 +3,7 @@ package project
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/chronark/terraform-provider-vercel/pkg/vercel/httpApi"
 )
 
@@ -25,11 +26,12 @@ func (p *ProjectHandler) Create(project CreateProject, teamId string) (string, e
 	var createdProject Project
 	err = json.NewDecoder(res.Body).Decode(&createdProject)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	return createdProject.ID, nil
 }
+
 func (p *ProjectHandler) Read(id string, teamId string) (project Project, err error) {
 	url := fmt.Sprintf("/v1/projects/%s", id)
 	if teamId != "" {
@@ -48,6 +50,7 @@ func (p *ProjectHandler) Read(id string, teamId string) (project Project, err er
 	}
 	return project, nil
 }
+
 func (p *ProjectHandler) Update(id string, project UpdateProject, teamId string) error {
 	url := fmt.Sprintf("/v2/projects/%s", id)
 	if teamId != "" {
@@ -61,6 +64,7 @@ func (p *ProjectHandler) Update(id string, project UpdateProject, teamId string)
 	defer res.Body.Close()
 	return nil
 }
+
 func (p *ProjectHandler) Delete(id string, teamId string) error {
 	url := fmt.Sprintf("/v1/projects/%s", id)
 	if teamId != "" {
